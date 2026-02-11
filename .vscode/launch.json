@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-LojaVirtualApplication<loja-virtual>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.github.rafsnow.lojavirtual.LojaVirtualApplication",
+      "projectName": "loja-virtual",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
