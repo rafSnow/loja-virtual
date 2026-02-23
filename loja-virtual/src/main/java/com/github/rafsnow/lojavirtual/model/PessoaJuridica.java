@@ -2,50 +2,45 @@ package com.github.rafsnow.lojavirtual.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@PrimaryKeyJoinColumn(name = "id")
 @Table(name = "pessoa_juridica")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class PessoaJuridica extends Pessoa {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_pessoa_juridica")
-  @SequenceGenerator(name = "seq_pessoa_juridica", sequenceName = "seq_pessoa_juridica", allocationSize = 1, initialValue = 1)
-  @EqualsAndHashCode.Include
-  private Long id;
-
   @NotBlank(message = "O campo CNPJ é obrigatório")
-  @Column(name = "cnpj", nullable = false, unique = true)
+  @Size(min = 14, max = 18, message = "O campo CNPJ deve conter entre 14 e 18 caracteres")
+  @Column(nullable = false, unique = true, length = 18)
   private String cnpj;
 
-  @Column(name = "inscricao_estadual")
+  @NotBlank(message = "O campo Inscrição Estadual é obrigatório")
+  @Column(nullable = false)
   private String inscricaoEstadual;
 
-  @Column(name = "inscricao_municipal")
+  @Column(nullable = true)
   private String inscricaoMunicipal;
 
   @NotBlank(message = "O campo Nome Fantasia é obrigatório")
-  @Column(name = "nome_fantasia", nullable = false)
+  @Column(nullable = false)
   private String nomeFantasia;
 
-  @Column(name = "razao_social")
+  @NotBlank(message = "O campo Razão Social é obrigatório")
+  @Column(nullable = false)
   private String razaoSocial;
 
-  @Column(name = "categoria")
+  @NotBlank(message = "O campo Categoria é obrigatório")
+  @Column(nullable = false)
   private String categoria;
 }

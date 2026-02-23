@@ -12,6 +12,8 @@ import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -19,6 +21,7 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -27,13 +30,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "pessoa")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
-public class Pessoa extends Auditoria {
+public abstract class Pessoa extends Auditoria {
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_pessoa")
@@ -55,10 +59,6 @@ public class Pessoa extends Auditoria {
   @Column(name = "telefone", length = 15, nullable = false)
   private String telefone;
 
-  @NotBlank(message = "O tipo da pessoa é obrigatório")
-  @Column(nullable = false)
-  private String tipoPessoa;
-
   @OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<Endereco> enderecos = new ArrayList<>();
 
@@ -66,7 +66,7 @@ public class Pessoa extends Auditoria {
   @JoinColumn(name = "empresa_id", nullable = true, foreignKey = @ForeignKey(name = "fk_pessoa_empresa", value = ConstraintMode.CONSTRAINT))
   private Pessoa empresa;
 
-  @NotBlank(message = "O status ativo/inativo da pessoa é obrigatório")
+  @NotNull(message = "O status ativo/inativo da pessoa é obrigatório")
   @Column(name = "ativo", nullable = false)
   private Boolean ativo = true;
 
