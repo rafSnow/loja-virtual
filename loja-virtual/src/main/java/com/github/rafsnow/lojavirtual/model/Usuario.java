@@ -14,7 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -52,8 +52,8 @@ public class Usuario extends Auditoria implements UserDetails {
   @NotNull(message = "O campo ativo é obrigatório")
   private Boolean ativo = true;
 
-  @OneToMany(fetch = FetchType.EAGER)
-  @JoinTable(name = "usuario_acesso", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "acesso_id"))
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "usuario_acesso", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "acesso_id", unique = false))
   private Set<Acesso> acessos;
 
   @Override
